@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-left">
+      <span class="logo">&#8383; CryptoTrack</span>
+    </div>
+    <nav class="main-nav">
+      <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+      <button class="nav-btn" data-page="portfolio">Portfolio</button>
+      <button class="nav-btn" data-page="search">Search</button>
+      <button class="nav-btn" data-page="news">News</button>
+    </nav>
+    <div class="header-right">
+      <select id="currency-select" aria-label="Currency">
+        <option value="usd">USD</option>
+        <option value="eur">EUR</option>
+        <option value="gbp">GBP</option>
+      </select>
+      <button id="theme-toggle" aria-label="Toggle theme">&#9790;</button>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- Dashboard Page -->
+    <section id="page-dashboard" class="page active">
+      <div class="metric-cards" id="metric-cards">
+        <div class="metric-card skeleton">
+          <span class="metric-label">Market Cap</span>
+          <span class="metric-value" id="metric-market-cap">—</span>
+        </div>
+        <div class="metric-card skeleton">
+          <span class="metric-label">24h Volume</span>
+          <span class="metric-value" id="metric-volume">—</span>
+        </div>
+        <div class="metric-card skeleton">
+          <span class="metric-label">BTC Dominance</span>
+          <span class="metric-value" id="metric-btc-dom">—</span>
+        </div>
+        <div class="metric-card skeleton">
+          <span class="metric-label">Active Coins</span>
+          <span class="metric-value" id="metric-active">—</span>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <div class="chart-header">
+          <h2>Portfolio History (7d)</h2>
+        </div>
+        <div class="chart-container">
+          <canvas id="portfolio-chart"></canvas>
+        </div>
+      </div>
+
+      <div class="coin-table-section">
+        <div class="table-header">
+          <h2>Top Coins</h2>
+          <span class="last-updated" id="last-updated"></span>
+        </div>
+        <div class="table-wrapper">
+          <table id="coin-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Coin</th>
+                <th>Price</th>
+                <th>24h %</th>
+                <th>7d %</th>
+                <th>Market Cap</th>
+                <th>Volume (24h)</th>
+                <th>7d Chart</th>
+              </tr>
+            </thead>
+            <tbody id="coin-table-body">
+              <tr class="skeleton-row"><td colspan="8">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Page -->
+    <section id="page-portfolio" class="page">
+      <div class="portfolio-header">
+        <h2>My Portfolio</h2>
+        <button id="add-holding-btn" class="btn-primary">+ Add Holding</button>
+      </div>
+
+      <div class="portfolio-summary" id="portfolio-summary">
+        <div class="metric-card">
+          <span class="metric-label">Total Value</span>
+          <span class="metric-value" id="port-total-value">$0.00</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Total P&amp;L</span>
+          <span class="metric-value" id="port-pnl">$0.00</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">P&amp;L %</span>
+          <span class="metric-value" id="port-pnl-pct">0.00%</span>
+        </div>
+      </div>
+
+      <div class="portfolio-content">
+        <div class="chart-container donut-container">
+          <canvas id="allocation-chart"></canvas>
+        </div>
+        <div class="holdings-list" id="holdings-list">
+          <p class="empty-state">No holdings yet. Add your first coin!</p>
+        </div>
+      </div>
+
+      <!-- Add Holding Modal -->
+      <div id="add-holding-modal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Add Holding</h3>
+          <label>Coin
+            <input type="text" id="holding-coin-input" placeholder="Search coin..." autocomplete="off" />
+            <ul id="holding-coin-suggestions" class="suggestions"></ul>
+          </label>
+          <label>Amount
+            <input type="number" id="holding-amount" placeholder="0.00" min="0" step="any" />
+          </label>
+          <label>Purchase Price (<span class="currency-label">USD</span>)
+            <input type="number" id="holding-price" placeholder="0.00" min="0" step="any" />
+          </label>
+          <div class="modal-actions">
+            <button id="cancel-holding-btn" class="btn-secondary">Cancel</button>
+            <button id="save-holding-btn" class="btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search Page -->
+    <section id="page-search" class="page">
+      <div class="search-bar-wrapper">
+        <input type="text" id="search-input" placeholder="Search coins..." aria-label="Search coins" />
+      </div>
+      <div id="search-results" class="search-results"></div>
+      <div id="coin-detail-panel" class="coin-detail hidden"></div>
+    </section>
+
+    <!-- News Page -->
+    <section id="page-news" class="page">
+      <h2>Crypto News</h2>
+      <div id="news-feed" class="news-feed">
+        <p class="loading-text">Loading news...</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/api.js"></script>
+  <script type="module" src="js/portfolio.js"></script>
+  <script type="module" src="js/charts.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
