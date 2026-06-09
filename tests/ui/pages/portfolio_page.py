@@ -2,6 +2,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from conftest import BASE_URL
 
 
 class PortfolioPage:
@@ -17,11 +18,13 @@ class PortfolioPage:
     HOLDINGS_LIST = (By.ID, "holdings-list")
     TOTAL_VALUE = (By.ID, "port-total-value")
 
-    def __init__(self, driver):
+    def __init__(self, driver, base_url=BASE_URL):
         self.driver = driver
+        self.base_url = base_url
         self.wait = WebDriverWait(driver, 15)
 
-    def navigate(self):
+    def load(self):
+        self.driver.get(self.base_url)
         self.driver.find_element(*self.NAV_BTN).click()
         return self
 
@@ -47,6 +50,10 @@ class PortfolioPage:
 
     def enter_price(self, price):
         self.driver.find_element(*self.PRICE_INPUT).send_keys(str(price))
+        return self
+
+    def cancel(self):
+        self.driver.find_element(*self.CANCEL_BTN).click()
         return self
 
     def save(self):
