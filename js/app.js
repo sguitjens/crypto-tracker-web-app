@@ -268,6 +268,7 @@ function bindSearchPage() {
 
 async function runSearch(query) {
   const resultsEl = document.getElementById('search-results');
+  document.getElementById('coin-detail-panel').classList.add('hidden');
   if (!query || query.length < 2) { resultsEl.innerHTML = ''; return; }
   resultsEl.innerHTML = '<p class="loading-text">Searching...</p>';
   try {
