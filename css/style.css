@@ -332,7 +332,8 @@ tbody td { padding: 0.65rem 0.75rem; vertical-align: middle; }
 }
 #search-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
 
-.search-results { display: flex; flex-direction: column; gap: 0.5rem; max-width: 600px; }
+.search-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
+.search-results { display: flex; flex-direction: column; gap: 0.5rem; flex: 0 0 400px; }
 .search-result-item {
   display: flex;
   align-items: center;
@@ -354,8 +355,7 @@ tbody td { padding: 0.65rem 0.75rem; vertical-align: middle; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem;
-  margin-top: 1.5rem;
-  max-width: 600px;
+  flex: 1;
 }
 .coin-detail.hidden { display: none; }
 .detail-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
