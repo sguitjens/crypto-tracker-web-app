@@ -63,5 +63,16 @@ class PortfolioPage:
     def get_holding_rows(self):
         return self.driver.find_elements(By.CSS_SELECTOR, ".holding-row")
 
+    def get_holding_ids(self):
+        return [r.get_attribute("data-id") for r in self.get_holding_rows()]
+
+    def remove_holding(self, coin_id):
+        btn = self.driver.find_element(By.CSS_SELECTOR, f".remove-holding[data-id='{coin_id}']")
+        btn.click()
+        self.wait.until(EC.invisibility_of_element_located(
+            (By.CSS_SELECTOR, f".holding-row[data-id='{coin_id}']")
+        ))
+        return self
+
     def get_total_value_text(self):
         return self.driver.find_element(*self.TOTAL_VALUE).text
