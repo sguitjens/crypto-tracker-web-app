@@ -2,6 +2,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from conftest import BASE_URL
 
 
 class PortfolioPage:
@@ -17,11 +18,13 @@ class PortfolioPage:
     HOLDINGS_LIST = (By.ID, "holdings-list")
     TOTAL_VALUE = (By.ID, "port-total-value")
 
-    def __init__(self, driver):
+    def __init__(self, driver, base_url=BASE_URL):
         self.driver = driver
+        self.base_url = base_url
         self.wait = WebDriverWait(driver, 15)
 
-    def navigate(self):
+    def load(self):
+        self.driver.get(self.base_url)
         self.driver.find_element(*self.NAV_BTN).click()
         return self
 
@@ -49,12 +52,27 @@ class PortfolioPage:
         self.driver.find_element(*self.PRICE_INPUT).send_keys(str(price))
         return self
 
+    def cancel(self):
+        self.driver.find_element(*self.CANCEL_BTN).click()
+        return self
+
     def save(self):
         self.driver.find_element(*self.SAVE_BTN).click()
         return self
 
     def get_holding_rows(self):
         return self.driver.find_elements(By.CSS_SELECTOR, ".holding-row")
+
+    def get_holding_ids(self):
+        return [r.get_attribute("data-id") for r in self.get_holding_rows()]
+
+    def remove_holding(self, coin_id):
+        btn = self.driver.find_element(By.CSS_SELECTOR, f".remove-holding[data-id='{coin_id}']")
+        btn.click()
+        self.wait.until(EC.invisibility_of_element_located(
+            (By.CSS_SELECTOR, f".holding-row[data-id='{coin_id}']")
+        ))
+        return self
 
     def get_total_value_text(self):
         return self.driver.find_element(*self.TOTAL_VALUE).text

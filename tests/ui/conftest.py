@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
+BASE_URL = "http://localhost:3000"
+
 
 def pytest_addoption(parser):
     parser.addoption("--browser", default="firefox", choices=["chrome", "firefox"])

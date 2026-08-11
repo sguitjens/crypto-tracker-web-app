@@ -210,6 +210,9 @@ function bindPortfolioModal() {
   document.getElementById('add-holding-modal').addEventListener('click', e => {
     if (e.target === e.currentTarget) closeModal();
   });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
 
   const coinInput = document.getElementById('holding-coin-input');
   const suggestions = document.getElementById('holding-coin-suggestions');

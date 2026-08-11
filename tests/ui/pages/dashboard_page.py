@@ -2,6 +2,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from conftest import BASE_URL
 
 
 class DashboardPage:
@@ -11,7 +12,7 @@ class DashboardPage:
     LAST_UPDATED = (By.ID, "last-updated")
     PORTFOLIO_CHART = (By.ID, "portfolio-chart")
 
-    def __init__(self, driver, base_url="http://localhost:3000"):
+    def __init__(self, driver, base_url=BASE_URL):
         self.driver = driver
         self.base_url = base_url
         self.wait = WebDriverWait(driver, 15)
